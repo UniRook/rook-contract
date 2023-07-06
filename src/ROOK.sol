@@ -7,7 +7,7 @@
 ██║  ██║╚██████╔╝╚██████╔╝██║  ██╗
 ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝
 */
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.19;
 
 import "openzeppelin-contracts-upgradeable/contracts/token/ERC20/ERC20Upgradeable.sol";
 import "openzeppelin-contracts-upgradeable/contracts/token/ERC20/extensions/ERC20BurnableUpgradeable.sol";
@@ -18,6 +18,7 @@ import "openzeppelin-contracts-upgradeable/contracts/token/ERC20/extensions/draf
 import "openzeppelin-contracts-upgradeable/contracts/token/ERC20/extensions/ERC20VotesUpgradeable.sol";
 import "openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol";
 import "openzeppelin-contracts-upgradeable/contracts/proxy/utils/UUPSUpgradeable.sol";
+import "openzeppelin-contracts/contracts/utils/Address.sol";
 
 /// @custom:security-contact devteam@unirook.com
 contract Rook is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, ERC20SnapshotUpgradeable, AccessControlUpgradeable, PausableUpgradeable, ERC20PermitUpgradeable, ERC20VotesUpgradeable, UUPSUpgradeable {
@@ -105,7 +106,7 @@ contract Rook is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, ERC2
     }
 
     //Function for NFT contract RKT (RookTranscript) to call to burn deposited tokens
-    function burnFrom(address account, uint256 amount) public onlyRole(BURNER_ROLE) {
+    function burnFrom(address account, uint256 amount) public override onlyRole(BURNER_ROLE) {
     _burn(account, amount);
     }
 

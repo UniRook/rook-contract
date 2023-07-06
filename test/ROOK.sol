@@ -5,7 +5,6 @@ import "forge-std/Test.sol";
 import "../src/ROOK.sol";
 
 contract ROOKTest is Test {
-    Counter public counter;
 
     function setUp() public {
 
