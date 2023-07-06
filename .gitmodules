@@ -1,0 +1,3 @@
+[submodule "rook-contract/lib/forge-std"]
+	path = rook-contract/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
