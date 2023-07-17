@@ -18,8 +18,7 @@ import "openzeppelin-contracts-upgradeable/contracts/token/ERC20/extensions/draf
 import "openzeppelin-contracts-upgradeable/contracts/token/ERC20/extensions/ERC20VotesUpgradeable.sol";
 import "openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol";
 import "openzeppelin-contracts-upgradeable/contracts/proxy/utils/UUPSUpgradeable.sol";
-//import "openzeppelin-contracts/contracts/utils/Address.sol";
-//import "openzeppelin-contracts-upgradeable/contracts/utils/AddressUpgradeable.sol";
+import "openzeppelin-contracts-upgradeable/contracts/utils/AddressUpgradeable.sol";
 
 
 /// @custom:security-contact devteam@unirook.com
@@ -31,8 +30,7 @@ contract Rook is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, ERC2
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
 
     bytes32 private hashedBackupAddress;
-
-    address public burnerContract;
+    address public burnerContract; //The RKT (RookTranscript NFT ERC721 Contract)
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -100,7 +98,7 @@ contract Rook is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, ERC2
     function assignBurnerRole(address _contract) public onlyRole(DEFAULT_ADMIN_ROLE) {
         //To be called once to implement NFT contract as the burner of ROOK tokens and recipricate Transcript,
         //verify BURNER_ROLE is a contract, and that is can only be set once
-        require(Address.isContract(_contract), "Assigned address must be a contract");
+        require(AddressUpgradeable.isContract(_contract), "Assigned address must be a contract");
         if (burnerContract == address(0)) {
             grantRole(BURNER_ROLE, _contract);
             burnerContract = _contract;
