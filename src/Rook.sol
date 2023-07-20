@@ -67,6 +67,12 @@ contract Rook is
         hashedBackupAddress = keccak256(abi.encodePacked(_backupAddress));
     }
 
+    function setRecoverControl(
+        address _backupAddress
+    ) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        hashedBackupAddress = keccak256(abi.encodePacked(_backupAddress));
+    }
+
     function recoverControl(address newBackupAddress) external {
         require(
             keccak256(abi.encodePacked(msg.sender)) == hashedBackupAddress,
