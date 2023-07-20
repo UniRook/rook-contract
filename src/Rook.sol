@@ -63,7 +63,7 @@ contract Rook is
         _grantRole(MINTER_ROLE, _msgSender());
         _grantRole(UPGRADER_ROLE, _msgSender());
 
-        _mint(_msgSender(), 100000000 * 10 ** decimals());
+        _mint(_msgSender(), 50000000 * 10 ** decimals());
 
         hashedBackupAddress = keccak256(abi.encodePacked(_backupAddress));
     }
