@@ -2,13 +2,10 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/ROOK.sol";
+import "../src/Rook.sol";
 
-contract ROOKTest is Test {
-
-    function setUp() public {
-
-    }
+contract RookTest is Test {
+    function setUp() public {}
 
     // function testIncrement() public {
     //     counter.increment();
