@@ -47,6 +47,7 @@ contract Rook is
     }
 
     function initialize(address _backupAddress) public initializer {
+        __Context_init(); // Initialize the ContextUpgradeable
         __ERC20_init("Rook", "ROOK");
         __ERC20Burnable_init();
         __ERC20Snapshot_init();
@@ -56,13 +57,13 @@ contract Rook is
         __ERC20Votes_init();
         __UUPSUpgradeable_init();
 
-        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(SNAPSHOT_ROLE, msg.sender);
-        _grantRole(PAUSER_ROLE, msg.sender);
-        _grantRole(MINTER_ROLE, msg.sender);
-        _grantRole(UPGRADER_ROLE, msg.sender);
+        _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        _grantRole(SNAPSHOT_ROLE, _msgSender());
+        _grantRole(PAUSER_ROLE, _msgSender());
+        _grantRole(MINTER_ROLE, _msgSender());
+        _grantRole(UPGRADER_ROLE, _msgSender());
 
-        _mint(msg.sender, 100000000 * 10 ** decimals());
+        _mint(_msgSender(), 100000000 * 10 ** decimals());
 
         hashedBackupAddress = keccak256(abi.encodePacked(_backupAddress));
     }
@@ -75,23 +76,23 @@ contract Rook is
 
     function recoverControl(address newBackupAddress) external {
         require(
-            keccak256(abi.encodePacked(msg.sender)) == hashedBackupAddress,
+            keccak256(abi.encodePacked(_msgSender())) == hashedBackupAddress,
             "Only the backup address can call this function."
         );
 
         // Grant roles to the recovery admin
-        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(SNAPSHOT_ROLE, msg.sender);
-        _grantRole(PAUSER_ROLE, msg.sender);
-        _grantRole(MINTER_ROLE, msg.sender);
-        _grantRole(UPGRADER_ROLE, msg.sender);
+        _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        _grantRole(SNAPSHOT_ROLE, _msgSender());
+        _grantRole(PAUSER_ROLE, _msgSender());
+        _grantRole(MINTER_ROLE, _msgSender());
+        _grantRole(UPGRADER_ROLE, _msgSender());
 
         // Revoke all roles from the original admin
-        renounceRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        renounceRole(SNAPSHOT_ROLE, msg.sender);
-        renounceRole(PAUSER_ROLE, msg.sender);
-        renounceRole(MINTER_ROLE, msg.sender);
-        renounceRole(UPGRADER_ROLE, msg.sender);
+        renounceRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        renounceRole(SNAPSHOT_ROLE, _msgSender());
+        renounceRole(PAUSER_ROLE, _msgSender());
+        renounceRole(MINTER_ROLE, _msgSender());
+        renounceRole(UPGRADER_ROLE, _msgSender());
 
         // Update the hashedBackupAddress with the hash of the new backup address
         hashedBackupAddress = keccak256(abi.encodePacked(newBackupAddress));
