@@ -6,7 +6,9 @@
 ██╔══██╗██║   ██║██║   ██║██╔═██╗
 ██║  ██║╚██████╔╝╚██████╔╝██║  ██╗
 ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝
-*/
+v1.0
+www.UniRook.com  */
+
 pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
@@ -68,12 +70,6 @@ contract Rook is
         hashedBackupAddress = keccak256(abi.encodePacked(_backupAddress));
     }
 
-    function setRecoverControl(
-        address _backupAddress
-    ) public onlyRole(DEFAULT_ADMIN_ROLE) {
-        hashedBackupAddress = keccak256(abi.encodePacked(_backupAddress));
-    }
-
     function recoverControl(address newBackupAddress) external {
         require(
             keccak256(abi.encodePacked(_msgSender())) == hashedBackupAddress,
@@ -123,10 +119,9 @@ contract Rook is
             AddressUpgradeable.isContract(_contract),
             "Assigned address must be a contract"
         );
-        if (burnerContract == address(0)) {
-            grantRole(BURNER_ROLE, _contract);
-            burnerContract = _contract;
-        }
+
+        grantRole(BURNER_ROLE, _contract);
+        burnerContract = _contract;
     }
 
     //Function for NFT contract RKT (RookTranscript) to call to burn deposited tokens
