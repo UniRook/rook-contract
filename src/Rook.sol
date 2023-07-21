@@ -40,8 +40,9 @@ contract Rook is
     bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
 
-    bytes32 private hashedBackupAddress;
+    address public currentAdmin;
     address public burnerContract; //The RKT (RookTranscript NFT ERC721 Contract)
+    bytes32 private hashedBackupAddress;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -65,9 +66,14 @@ contract Rook is
         _grantRole(MINTER_ROLE, _msgSender());
         _grantRole(UPGRADER_ROLE, _msgSender());
 
-        _mint(_msgSender(), 50000000 * 10 ** decimals());
+        // Set the current admin to the msg.sender at initialization
+        currentAdmin = _msgSender();
 
+        // Set secret backup recovery address
         hashedBackupAddress = keccak256(abi.encodePacked(_backupAddress));
+
+        // Set token supply
+        _mint(_msgSender(), 50000000 * 10 ** decimals());
     }
 
     function recoverControl(address newBackupAddress) external {
@@ -84,11 +90,14 @@ contract Rook is
         _grantRole(UPGRADER_ROLE, _msgSender());
 
         // Revoke all roles from the original admin
-        renounceRole(DEFAULT_ADMIN_ROLE, _msgSender());
-        renounceRole(SNAPSHOT_ROLE, _msgSender());
-        renounceRole(PAUSER_ROLE, _msgSender());
-        renounceRole(MINTER_ROLE, _msgSender());
-        renounceRole(UPGRADER_ROLE, _msgSender());
+        renounceRole(DEFAULT_ADMIN_ROLE, currentAdmin);
+        renounceRole(SNAPSHOT_ROLE, currentAdmin);
+        renounceRole(PAUSER_ROLE, currentAdmin);
+        renounceRole(MINTER_ROLE, currentAdmin);
+        renounceRole(UPGRADER_ROLE, currentAdmin);
+
+        // Set the previous backup address (function caller) as the current admin
+        currentAdmin = _msgSender();
 
         // Update the hashedBackupAddress with the hash of the new backup address
         hashedBackupAddress = keccak256(abi.encodePacked(newBackupAddress));
