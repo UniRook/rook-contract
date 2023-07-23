@@ -1,13 +1,8 @@
 // SPDX-License-Identifier: MIT
-/**
-██████╗  ██████╗  ██████╗ ██╗  ██╗
-██╔══██╗██╔═══██╗██╔═══██╗██║ ██╔╝
-██████╔╝██║   ██║██║   ██║█████╔╝
-██╔══██╗██║   ██║██║   ██║██╔═██╗
-██║  ██║╚██████╔╝╚██████╔╝██║  ██╗
-╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝
-v1.0
-www.UniRook.com  */
+
+/*
+v1.0 
+UniRook.com  */
 
 pragma solidity ^0.8.19;
 
@@ -23,7 +18,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 
 /// @custom:security-contact devteam@unirook.com
-contract Rook is
+contract UniRook is
     Initializable,
     ERC20Upgradeable,
     ERC20BurnableUpgradeable,
