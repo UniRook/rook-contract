@@ -55,7 +55,7 @@ contract Rook is
 
     function initialize(address _backupAddress) public initializer {
         __Context_init();
-        __ERC20_init("Rook", "ROOK");
+        __ERC20_init("UniRook", "ROOK");
         __ERC20Burnable_init();
         __ERC20Snapshot_init();
         __AccessControl_init();
